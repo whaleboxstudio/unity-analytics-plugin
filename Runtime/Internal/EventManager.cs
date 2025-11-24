@@ -23,20 +23,21 @@ namespace Whalytics.Internal
         /// <summary>
         /// Initializes the EventManager.
         /// </summary>
-        public void Initialize(string apiKey, bool debugMode)
+        /// <summary>
+        /// Initializes the EventManager.
+        /// </summary>
+        public void Initialize(string apiKey)
         {
-            _debugMode = debugMode;
-            
             // 1. Setup Database
             _database = new EventsDatabase();
 
             // 2. Setup Network
             _networkManager = gameObject.AddComponent<NetworkManager>();
-            _networkManager.Initialize(apiKey, debugMode);
+            _networkManager.Initialize(apiKey, _debugMode);
 
             // 3. Setup Sender
             _eventSender = gameObject.AddComponent<EventSender>();
-            _eventSender.Initialize(_database, _networkManager, debugMode);
+            _eventSender.Initialize(_database, _networkManager, _debugMode);
 
             // 4. Session & User
             _userId = _database.GetUserId();
@@ -51,6 +52,13 @@ namespace Whalytics.Internal
             LogEvent("session_start", DeviceInfo.GetDeviceInfo());
             
             StartCoroutine(FlushLoop());
+        }
+
+        public void SetDebugMode(bool enabled)
+        {
+            _debugMode = enabled;
+            if (_networkManager != null) _networkManager.SetDebugMode(enabled);
+            if (_eventSender != null) _eventSender.SetDebugMode(enabled);
         }
 
         private System.Collections.IEnumerator FlushLoop()

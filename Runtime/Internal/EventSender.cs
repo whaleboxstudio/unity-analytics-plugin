@@ -26,6 +26,11 @@ namespace Whalytics.Internal
             StartCoroutine(SendLoop());
         }
 
+        public void SetDebugMode(bool enabled)
+        {
+            _debugMode = enabled;
+        }
+
         private IEnumerator SendLoop()
         {
             while (true)

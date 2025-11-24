@@ -25,6 +25,11 @@ namespace Whalytics.Internal
             _debugMode = debugMode;
         }
 
+        public void SetDebugMode(bool enabled)
+        {
+            _debugMode = enabled;
+        }
+
         /// <summary>
         /// Sends a batch of events to the backend.
         /// </summary>

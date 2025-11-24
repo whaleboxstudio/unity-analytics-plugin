@@ -7,7 +7,10 @@ namespace Whalytics
     /// <summary>
     /// The main entry point for the Whalytics SDK.
     /// </summary>
-    public static class Whalytics
+    /// <summary>
+    /// The main entry point for the Whalytics SDK.
+    /// </summary>
+    public static class WhalyticsSDK
     {
         private static EventManager _eventManager;
         private static bool _isInitialized;
@@ -16,12 +19,11 @@ namespace Whalytics
         /// Initializes the Whalytics SDK.
         /// </summary>
         /// <param name="apiKey">Your project's API Key.</param>
-        /// <param name="debug">If true, enables debug logging and insecure certificate bypassing.</param>
-        public static void Init(string apiKey, bool debug = false)
+        public static void Initialize(string apiKey)
         {
             if (_isInitialized)
             {
-                if (debug) Debug.LogWarning("[Whalytics] Already initialized.");
+                Debug.LogWarning("[Whalytics] Already initialized.");
                 return;
             }
 
@@ -29,10 +31,24 @@ namespace Whalytics
             Object.DontDestroyOnLoad(go);
             
             _eventManager = go.AddComponent<EventManager>();
-            _eventManager.Initialize(apiKey, debug);
+            _eventManager.Initialize(apiKey);
             
             _isInitialized = true;
-            if (debug) Debug.Log("[Whalytics] Initialized.");
+            Debug.Log("[Whalytics] Initialized.");
+        }
+
+        /// <summary>
+        /// Enables or disables debug logging.
+        /// </summary>
+        /// <param name="enabled">If true, enables debug logging.</param>
+        public static void SetDebugMode(bool enabled)
+        {
+            if (!_isInitialized)
+            {
+                Debug.LogWarning("[Whalytics] Not initialized. Call Initialize() first.");
+                return;
+            }
+            _eventManager.SetDebugMode(enabled);
         }
 
         /// <summary>
@@ -44,7 +60,7 @@ namespace Whalytics
         {
             if (!_isInitialized)
             {
-                Debug.LogWarning("[Whalytics] Not initialized. Call Init() first.");
+                Debug.LogWarning("[Whalytics] Not initialized. Call Initialize() first.");
                 return;
             }
             _eventManager.LogEvent(eventName, parameters);
@@ -59,7 +75,7 @@ namespace Whalytics
         {
             if (!_isInitialized)
             {
-                Debug.LogWarning("[Whalytics] Not initialized. Call Init() first.");
+                Debug.LogWarning("[Whalytics] Not initialized. Call Initialize() first.");
                 return;
             }
             _eventManager.SetUserProperty(property, value);
