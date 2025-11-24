@@ -13,7 +13,7 @@ namespace Whalytics
         /// <summary>
         /// The backend URL for event ingestion.
         /// </summary>
-        public const string BackendUrl = "http://localhost:3000/v1/events";
+        public const string BackendUrl = "https://analytics.whaleboxstudio.com/v1/events";
 
         /// <summary>
         /// Maximum allowed length for event names.
