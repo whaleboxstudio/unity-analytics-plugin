@@ -1,9 +1,9 @@
-namespace Whalytics
+namespace GameEventsIO
 {
     /// <summary>
     /// Configuration constants for the game-events.io SDK.
     /// </summary>
-    public static class WhalyticsConfig
+    public static class GameEventsIOConfig
     {
         /// <summary>
         /// The current version of the SDK.
@@ -43,7 +43,7 @@ namespace Whalytics
         /// <summary>
         /// Prefix for PlayerPrefs keys used by the SDK.
         /// </summary>
-        public const string PlayerPrefsKeyPrefix = "Whalytics_";
+        public const string PlayerPrefsKeyPrefix = "GameEventsIO_";
 
         /// <summary>
         /// Maximum number of batch files to keep offline.

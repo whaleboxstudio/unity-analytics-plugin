@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Whalytics.Internal
+namespace GameEventsIO.Internal
 {
     public static class DeviceInfo
     {

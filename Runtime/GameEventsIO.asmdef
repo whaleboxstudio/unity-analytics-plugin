@@ -1,6 +1,6 @@
 {
-    "name": "Whalytics",
-    "rootNamespace": "Whalytics",
+    "name": "GameEventsIO",
+    "rootNamespace": "GameEventsIO",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

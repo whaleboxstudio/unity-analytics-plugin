@@ -31,17 +31,17 @@ Initialize the SDK at the start of your game, typically in the `Awake` method of
 
 ```csharp
 using UnityEngine;
-using Whalytics;
+using GameEventsIO;
 
 public class GameManager : MonoBehaviour
 {
     void Awake()
     {
         // Replace "YOUR_API_KEY" with your actual project API key from the game-events.io dashboard.
-        WhalyticsSDK.Initialize("YOUR_API_KEY");
+        GameEventsIOSDK.Initialize("YOUR_API_KEY");
         
         // Optional: Enable debug logging to see what's happening in the Editor console.
-        WhalyticsSDK.SetDebugMode(true);
+        GameEventsIOSDK.SetDebugMode(true);
     }
 }
 ```
@@ -53,7 +53,7 @@ Track custom events to understand player behavior.
 #### Simple Event
 
 ```csharp
-WhalyticsSDK.LogEvent("level_started");
+GameEventsIOSDK.LogEvent("level_started");
 ```
 
 #### Event with Properties
@@ -69,7 +69,7 @@ var props = new Dictionary<string, object>
     { "hero_class", "warrior" }
 };
 
-WhalyticsSDK.LogEvent("level_completed", props);
+GameEventsIOSDK.LogEvent("level_completed", props);
 ```
 
 #### User Properties
@@ -78,7 +78,7 @@ Set properties for the current user, such as subscription status, level, or coho
 
 ```csharp
 // Set a single user property
-WhalyticsSDK.SetUserProperty("subscription_type", "premium");
+GameEventsIOSDK.SetUserProperty("subscription_type", "premium");
 
 // Set multiple user properties
 var userProps = new Dictionary<string, object>
@@ -86,7 +86,7 @@ var userProps = new Dictionary<string, object>
     { "level", 10 },
     { "guild", "Warriors" }
 };
-WhalyticsSDK.SetUserProperties(userProps);
+GameEventsIOSDK.SetUserProperties(userProps);
 ```
 
 ## Requirements

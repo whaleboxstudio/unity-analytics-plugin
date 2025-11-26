@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Whalytics.Utils;
+using GameEventsIO.Utils;
 
-namespace Whalytics.Internal
+namespace GameEventsIO.Internal
 {
     /// <summary>
     /// Core component responsible for managing session state and producing events.
@@ -63,7 +63,7 @@ namespace Whalytics.Internal
 
         private System.Collections.IEnumerator FlushLoop()
         {
-            var wait = new WaitForSeconds(WhalyticsConfig.SendIntervalSeconds); // Reuse send interval or add a new config?
+            var wait = new WaitForSeconds(GameEventsIOConfig.SendIntervalSeconds); // Reuse send interval or add a new config?
             // Requirement says "Every N seconds". Let's assume it's similar to send interval or we can use a hardcoded value for now if config is missing.
             // Let's use 10 seconds or reuse SendIntervalSeconds if appropriate. 
             // Actually, let's use a separate value or just reuse SendIntervalSeconds for simplicity as "N" wasn't specified in config.
@@ -79,11 +79,11 @@ namespace Whalytics.Internal
 
         public void SetUserProperty(string key, object value)
         {
-            if (_userProperties.Count >= WhalyticsConfig.MaxPropertyCount) return;
+            if (_userProperties.Count >= GameEventsIOConfig.MaxPropertyCount) return;
             
-            if (key.Length > WhalyticsConfig.MaxEventNameLength)
+            if (key.Length > GameEventsIOConfig.MaxEventNameLength)
             {
-                 key = key.Substring(0, WhalyticsConfig.MaxEventNameLength);
+                 key = key.Substring(0, GameEventsIOConfig.MaxEventNameLength);
             }
 
             _userProperties[key] = value;
@@ -102,9 +102,9 @@ namespace Whalytics.Internal
         {
             if (string.IsNullOrEmpty(eventName)) return;
 
-            if (eventName.Length > WhalyticsConfig.MaxEventNameLength)
+            if (eventName.Length > GameEventsIOConfig.MaxEventNameLength)
             {
-                eventName = eventName.Substring(0, WhalyticsConfig.MaxEventNameLength);
+                eventName = eventName.Substring(0, GameEventsIOConfig.MaxEventNameLength);
             }
 
             var eventData = new Dictionary<string, object>
@@ -118,7 +118,7 @@ namespace Whalytics.Internal
 
             if (parameters != null)
             {
-                if (parameters.Count > WhalyticsConfig.MaxPropertyCount)
+                if (parameters.Count > GameEventsIOConfig.MaxPropertyCount)
                 {
                      // Truncate logic if needed
                 }

@@ -4,10 +4,10 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Whalytics.Internal
+namespace GameEventsIO.Internal
 {
     /// <summary>
-    /// Handles network communication with the Whalytics backend.
+    /// Handles network communication with the GameEventsIO backend.
     /// </summary>
     public class NetworkManager : MonoBehaviour
     {
@@ -37,7 +37,7 @@ namespace Whalytics.Internal
         /// <param name="onComplete">Callback executed when the request completes. Returns true if successful.</param>
         public void SendBatch(string jsonPayload, Action<bool> onComplete)
         {
-            StartCoroutine(PostRequestWithRetry(WhalyticsConfig.BackendUrl, jsonPayload, onComplete));
+            StartCoroutine(PostRequestWithRetry(GameEventsIOConfig.BackendUrl, jsonPayload, onComplete));
         }
 
         private IEnumerator PostRequestWithRetry(string url, string json, Action<bool> onComplete)
@@ -66,7 +66,7 @@ namespace Whalytics.Internal
 
                     if (_debugMode)
                     {
-                        Debug.Log($"[Whalytics] Sending batch (Attempt {retryCount + 1}): {json}");
+                        Debug.Log($"[GameEventsIO] Sending batch (Attempt {retryCount + 1}): {json}");
                     }
 
                     yield return request.SendWebRequest();
@@ -75,7 +75,7 @@ namespace Whalytics.Internal
                     {
                         if (_debugMode)
                         {
-                            Debug.Log($"[Whalytics] Batch sent successfully: {request.responseCode}");
+                            Debug.Log($"[GameEventsIO] Batch sent successfully: {request.responseCode}");
                         }
                         onComplete?.Invoke(true);
                         yield break;
@@ -84,7 +84,7 @@ namespace Whalytics.Internal
                     {
                         if (_debugMode)
                         {
-                            Debug.LogError($"[Whalytics] Error sending batch: {request.error}. Response Code: {request.responseCode}");
+                            Debug.LogError($"[GameEventsIO] Error sending batch: {request.error}. Response Code: {request.responseCode}");
                         }
 
                         // Retry on network errors or 5xx server errors
@@ -95,19 +95,19 @@ namespace Whalytics.Internal
                             retryCount++;
                             if (retryCount > maxRetries)
                             {
-                                if (_debugMode) Debug.LogError("[Whalytics] Max retries reached. Giving up.");
+                                if (_debugMode) Debug.LogError("[GameEventsIO] Max retries reached. Giving up.");
                                 onComplete?.Invoke(false);
                                 yield break;
                             }
 
-                            if (_debugMode) Debug.Log($"[Whalytics] Retrying in {delay} seconds...");
+                            if (_debugMode) Debug.Log($"[GameEventsIO] Retrying in {delay} seconds...");
                             yield return new WaitForSeconds(delay);
                             delay *= 2.0f; // Exponential backoff
                         }
                         else
                         {
                             // 4xx errors (e.g. 400 Bad Request, 401 Unauthorized) - do not retry
-                            if (_debugMode) Debug.LogError("[Whalytics] Non-retriable error.");
+                            if (_debugMode) Debug.LogError("[GameEventsIO] Non-retriable error.");
                             onComplete?.Invoke(false);
                             yield break;
                         }

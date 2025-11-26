@@ -1,40 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Whalytics.Internal;
+using GameEventsIO.Internal;
 
-namespace Whalytics
+namespace GameEventsIO
 {
     /// <summary>
-    /// The main entry point for the Whalytics SDK.
+    /// The main entry point for the GameEventsIO SDK.
     /// </summary>
     /// <summary>
-    /// The main entry point for the Whalytics SDK.
+    /// The main entry point for the GameEventsIO SDK.
     /// </summary>
-    public static class WhalyticsSDK
+    public static class GameEventsIOSDK
     {
         private static EventManager _eventManager;
         private static bool _isInitialized;
 
         /// <summary>
-        /// Initializes the Whalytics SDK.
+        /// Initializes the GameEventsIO SDK.
         /// </summary>
         /// <param name="apiKey">Your project's API Key.</param>
         public static void Initialize(string apiKey)
         {
             if (_isInitialized)
             {
-                Debug.LogWarning("[Whalytics] Already initialized.");
+                Debug.LogWarning("[GameEventsIO] Already initialized.");
                 return;
             }
 
-            GameObject go = new GameObject("Whalytics");
+            GameObject go = new GameObject("GameEventsIO");
             Object.DontDestroyOnLoad(go);
             
             _eventManager = go.AddComponent<EventManager>();
             _eventManager.Initialize(apiKey);
             
             _isInitialized = true;
-            Debug.Log("[Whalytics] Initialized.");
+            Debug.Log("[GameEventsIO] Initialized.");
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Whalytics
         {
             if (!_isInitialized)
             {
-                Debug.LogWarning("[Whalytics] Not initialized. Call Initialize() first.");
+                Debug.LogWarning("[GameEventsIO] Not initialized. Call Initialize() first.");
                 return;
             }
             _eventManager.SetDebugMode(enabled);
@@ -60,7 +60,7 @@ namespace Whalytics
         {
             if (!_isInitialized)
             {
-                Debug.LogWarning("[Whalytics] Not initialized. Call Initialize() first.");
+                Debug.LogWarning("[GameEventsIO] Not initialized. Call Initialize() first.");
                 return;
             }
             _eventManager.LogEvent(eventName, parameters);
@@ -75,7 +75,7 @@ namespace Whalytics
         {
             if (!_isInitialized)
             {
-                Debug.LogWarning("[Whalytics] Not initialized. Call Initialize() first.");
+                Debug.LogWarning("[GameEventsIO] Not initialized. Call Initialize() first.");
                 return;
             }
             _eventManager.SetUserProperty(property, value);
@@ -89,7 +89,7 @@ namespace Whalytics
         {
             if (!_isInitialized)
             {
-                Debug.LogWarning("[Whalytics] Not initialized. Call Init() first.");
+                Debug.LogWarning("[GameEventsIO] Not initialized. Call Init() first.");
                 return;
             }
             _eventManager.SetUserProperties(properties);

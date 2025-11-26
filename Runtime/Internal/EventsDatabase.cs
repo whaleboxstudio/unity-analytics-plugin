@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using Whalytics.Utils;
+using GameEventsIO.Utils;
 
-namespace Whalytics.Internal
+namespace GameEventsIO.Internal
 {
     /// <summary>
     /// Manages persistence of events using a file-based spooling system.
@@ -13,9 +13,9 @@ namespace Whalytics.Internal
     /// </summary>
     public class EventsDatabase
     {
-        private const string UserIdKey = WhalyticsConfig.PlayerPrefsKeyPrefix + "UserId";
-        private const string CurrentBatchIdKey = WhalyticsConfig.PlayerPrefsKeyPrefix + "CurrentBatchId";
-        private const string SendedBatchIdKey = WhalyticsConfig.PlayerPrefsKeyPrefix + "SendedBatchId";
+        private const string UserIdKey = GameEventsIOConfig.PlayerPrefsKeyPrefix + "UserId";
+        private const string CurrentBatchIdKey = GameEventsIOConfig.PlayerPrefsKeyPrefix + "CurrentBatchId";
+        private const string SendedBatchIdKey = GameEventsIOConfig.PlayerPrefsKeyPrefix + "SendedBatchId";
         
         private readonly string _spoolPath;
         private List<object> _pendingEvents = new List<object>();
@@ -25,7 +25,7 @@ namespace Whalytics.Internal
 
         public EventsDatabase()
         {
-            _spoolPath = Path.Combine(Application.persistentDataPath, WhalyticsConfig.SpoolDirectoryName);
+            _spoolPath = Path.Combine(Application.persistentDataPath, GameEventsIOConfig.SpoolDirectoryName);
 
             if (!Directory.Exists(_spoolPath))
             {
@@ -74,7 +74,7 @@ namespace Whalytics.Internal
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Whalytics] Failed to flush events: {e.Message}");
+                Debug.LogError($"[GameEventsIO] Failed to flush events: {e.Message}");
             }
         }
 
@@ -148,7 +148,7 @@ namespace Whalytics.Internal
                     }
                     catch (Exception e)
                     {
-                        Debug.LogError($"[Whalytics] Failed to delete batch {path}: {e.Message}");
+                        Debug.LogError($"[GameEventsIO] Failed to delete batch {path}: {e.Message}");
                     }
                 }
             }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace Whalytics.Utils
+namespace GameEventsIO.Utils
 {
     /// <summary>
     /// A very simple JSON serializer to avoid external dependencies.

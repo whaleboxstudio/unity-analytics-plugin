@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
-using Whalytics.Utils;
+using GameEventsIO.Utils;
 
-namespace Whalytics.Internal
+namespace GameEventsIO.Internal
 {
     /// <summary>
     /// Component responsible for consuming batches from storage and sending them to the backend.
@@ -35,7 +35,7 @@ namespace Whalytics.Internal
         {
             while (true)
             {
-                yield return new WaitForSeconds(WhalyticsConfig.SendIntervalSeconds);
+                yield return new WaitForSeconds(GameEventsIOConfig.SendIntervalSeconds);
                 
                 if (!_isSending)
                 {
@@ -47,7 +47,7 @@ namespace Whalytics.Internal
         private void TrySendBatches()
         {
             // 1. Get batches to send
-            List<string> batchPaths = _database.GetBatchesToSend(WhalyticsConfig.MaxBatchSize * 1024); // Size in bytes
+            List<string> batchPaths = _database.GetBatchesToSend(GameEventsIOConfig.MaxBatchSize * 1024); // Size in bytes
             
             if (batchPaths.Count == 0) return;
 
@@ -90,7 +90,7 @@ namespace Whalytics.Internal
                 }
                 catch (System.Exception e)
                 {
-                     if (_debugMode) Debug.LogError($"[Whalytics] Error reading batch {path}: {e.Message}");
+                     if (_debugMode) Debug.LogError($"[GameEventsIO] Error reading batch {path}: {e.Message}");
                 }
             }
             sb.Append("]");
@@ -105,12 +105,12 @@ namespace Whalytics.Internal
                     _isSending = false;
                     if (success)
                     {
-                        if (_debugMode) Debug.Log($"[Whalytics] Sent batches up to {lastBatchId}");
+                        if (_debugMode) Debug.Log($"[GameEventsIO] Sent batches up to {lastBatchId}");
                         _database.ConfirmSend(lastBatchId);
                     }
                     else
                     {
-                        if (_debugMode) Debug.LogWarning("[Whalytics] Failed to send batches.");
+                        if (_debugMode) Debug.LogWarning("[GameEventsIO] Failed to send batches.");
                     }
                 });
             }
