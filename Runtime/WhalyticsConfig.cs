@@ -1,7 +1,7 @@
 namespace Whalytics
 {
     /// <summary>
-    /// Configuration constants for the Whalytics SDK.
+    /// Configuration constants for the game-events.io SDK.
     /// </summary>
     public static class WhalyticsConfig
     {
@@ -13,7 +13,7 @@ namespace Whalytics
         /// <summary>
         /// The backend URL for event ingestion.
         /// </summary>
-        public const string BackendUrl = "https://analytics.whaleboxstudio.com/v1/events";
+        public const string BackendUrl = "https://api.game-events.io/v1/events";
 
         /// <summary>
         /// Maximum allowed length for event names.

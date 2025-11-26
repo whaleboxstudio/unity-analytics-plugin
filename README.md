@@ -1,6 +1,6 @@
-# Whalytics Unity Plugin
+# game-events.io Unity Plugin
 
-A lightweight, high-performance analytics SDK for Unity games, designed to work with the Whalytics backend.
+A lightweight, high-performance analytics SDK for Unity games, designed to work with the game-events.io backend.
 
 ## Features
 
@@ -19,7 +19,7 @@ A lightweight, high-performance analytics SDK for Unity games, designed to work 
 3. Select **Add package from git URL...**.
 4. Enter the following URL:
    ```
-   https://github.com/whaleboxstudio/unity-analytics-plugin.git
+   https://github.com/game-events-io/unity-plugin.git
    ```
 5. Click **Add**.
 
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 {
     void Awake()
     {
-        // Replace "YOUR_API_KEY" with your actual project API key from the Whalytics dashboard.
+        // Replace "YOUR_API_KEY" with your actual project API key from the game-events.io dashboard.
         WhalyticsSDK.Initialize("YOUR_API_KEY");
         
         // Optional: Enable debug logging to see what's happening in the Editor console.
