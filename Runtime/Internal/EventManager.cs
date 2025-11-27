@@ -50,6 +50,7 @@ namespace GameEventsIO.Internal
 
             // 5. Start Session
             LogEvent("session_start", DeviceInfo.GetDeviceInfo());
+            _database.Flush(); // Flush immediately to persist session_start
             
             StartCoroutine(FlushLoop());
         }
