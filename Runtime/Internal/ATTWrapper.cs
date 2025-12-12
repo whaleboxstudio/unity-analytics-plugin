@@ -1,51 +1,66 @@
 using System;
-using System.Runtime.InteropServices;
 using UnityEngine;
+#if UNITY_IOS
+using Unity.Advertisement.IosSupport;
+#endif
 
 namespace GameEventsIO.Internal
 {
     public static class ATTWrapper
     {
-#if UNITY_IOS && !UNITY_EDITOR
-        [DllImport("__Internal")]
-        private static extern void _requestTrackingAuthorization(string callbackGameObjectName, string callbackMethodName);
-
-        [DllImport("__Internal")]
-        private static extern int _getTrackingAuthorizationStatus();
-#endif
-
         public static void RequestTrackingAuthorization(Action<int> callback)
         {
 #if UNITY_IOS && !UNITY_EDITOR
-            if (Application.platform == RuntimePlatform.IPhonePlayer) 
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
-#if UNITY_2020_3_OR_NEWER
-                UnityEngine.iOS.ATTrackingManager.RequestTrackingAuthorization((status) => 
-                {
-                    callback?.Invoke((int)status);
-                });
-#else
-                Debug.LogWarning("[GameEventsIO] ATT requires Unity 2020.3+ or a native plugin.");
-                callback?.Invoke(0); // Not Determined
-#endif
+                ATTrackingStatusBinding.RequestAuthorizationTracking();
+                
+                 GameObject go = new GameObject("ATTPoller");
+                 go.AddComponent<ATTPoller>().Initialise(callback);
             }
             else
             {
-                // On Editor or Android, just callback authorized (3) or not determined (0)
-                callback?.Invoke(3); // Authorized for testing
+                callback?.Invoke(3); // Authorized
             }
 #else
-            callback?.Invoke(3); // Authorized for testing/Android
+            callback?.Invoke(3); // Authorized
 #endif
         }
 
         public static int GetTrackingAuthorizationStatus()
         {
-#if UNITY_IOS && !UNITY_EDITOR && UNITY_2020_3_OR_NEWER
-            return (int)UnityEngine.iOS.ATTrackingManager.trackingAuthorizationStatus;
+#if UNITY_IOS && !UNITY_EDITOR
+             if (Application.platform == RuntimePlatform.IPhonePlayer)
+             {
+                 return (int)ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
+             }
+             return 3;
 #else
             return 3; // Authorized
 #endif
         }
+        
+#if UNITY_IOS && !UNITY_EDITOR
+        private class ATTPoller : MonoBehaviour
+        {
+            private Action<int> _callback;
+            
+            public void Initialise(Action<int> callback)
+            {
+                _callback = callback;
+                DontDestroyOnLoad(gameObject);
+            }
+
+            private void Update()
+            {
+                var status = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
+                if (status != ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
+                {
+                    _callback?.Invoke((int)status);
+                    Destroy(gameObject);
+                }
+            }
+        }
+#endif
     }
 }

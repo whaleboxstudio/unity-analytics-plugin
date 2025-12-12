@@ -1,7 +1,9 @@
 {
     "name": "GameEventsIO",
     "rootNamespace": "GameEventsIO",
-    "references": [],
+    "references": [
+        "Unity.Advertisement.IosSupport"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

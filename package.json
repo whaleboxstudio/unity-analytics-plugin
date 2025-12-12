@@ -8,5 +8,8 @@
     "name": "game-events.io",
     "email": "contact@game-events.io",
     "url": "https://game-events.io"
+  },
+  "dependencies": {
+    "com.unity.ads.ios-support": "1.2.0"
   }
 }
